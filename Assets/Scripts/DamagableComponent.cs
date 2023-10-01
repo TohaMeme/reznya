@@ -2,11 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class DamagableComponent : MonoBehaviour
 {
     [SerializeField] int maxHp = 100;
     [SerializeField] int minHp = 0;
+
+    public TMP_Text healthText;
 
     int currentHp = 100;
 
@@ -15,6 +19,10 @@ public class DamagableComponent : MonoBehaviour
     private void Start()
     {
         currentHp = maxHp;
+    }
+    public void Update()
+    {
+        healthText.text = "Health: " + currentHp + "%";
     }
 
     public int Hp
