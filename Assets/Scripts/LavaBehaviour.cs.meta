@@ -1,4 +1,5 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 <<<<<<<< HEAD:Assets/TextMesh Pro/Examples & Extras/Scripts/DropdownSample.cs.meta
 guid: 214ca9b7357b05942b12e90eab581a30
 ========
@@ -6,6 +7,10 @@ guid: d868cc007eb2be34e9aa1e261852bac8
 >>>>>>>> 9009b0318a5c5b1331e74d076b10b50b42ef7fc5:Assets/LavaBehaviour.cs.meta
 MonoImporter:
   externalObjects: {}
+=======
+guid: f970ea55f9f84bf79b05dab180b8c125
+MonoImporter:
+>>>>>>> 292bfabae3e97375a4bcc6f2fa293ddefdabcf86
   serializedVersion: 2
   defaultReferences: []
   executionOrder: 0
