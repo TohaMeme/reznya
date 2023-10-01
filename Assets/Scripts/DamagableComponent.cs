@@ -55,6 +55,7 @@ public class DamagableComponent : MonoBehaviour
         {
             currentHp = maxHp;
         }
+        Debug.Log($"Current HP = {currentHp}");
     }
 
     public void Heal(int healAmount)
@@ -63,6 +64,7 @@ public class DamagableComponent : MonoBehaviour
             return;
 
         currentHp += healAmount;
+        Debug.Log($"Current HP = {currentHp}");
     }
 
     void Die()

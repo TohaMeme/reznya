@@ -11,11 +11,6 @@ public class PlayerController : MonoBehaviour
     [Header("Camera Settings")]
     [SerializeField] float _sensitivity = 200f;
 
-    [Header("Ladder Detection")]
-    [SerializeField] float distance = 3;
-    [SerializeField] Transform Feet;
-    [SerializeField] float ladderLength = 0.1f;
-    [SerializeField] float ladderHeight = 0.1f;
  
     Rigidbody rb;
 
@@ -25,21 +20,7 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    //Лестница (мой тест, мы это еще не делали)
-    private void Update()
-    {
-        Ray ray = new Ray(Feet.position, Feet.forward);
-        Debug.DrawRay(ray.origin, ray.direction * distance, Color.red);
-        RaycastHit hitInfo; 
-        if (Physics.Raycast(ray, out hitInfo, distance))
-        {
-            if (hitInfo.collider.tag == "Ladder")
-            {
-                Debug.Log("Ladder ahead");
-                transform.position += transform.forward * ladderLength + transform.up * ladderHeight;
-            }
-        }
-    }
+    
 
     void FixedUpdate()
     {
