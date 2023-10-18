@@ -78,4 +78,5 @@ public class DamagableComponent : MonoBehaviour
     {
         Debug.Log($"{gameObject.name} is dead");
     }
+
 }

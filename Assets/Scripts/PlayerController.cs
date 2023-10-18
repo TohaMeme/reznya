@@ -19,11 +19,31 @@ public class PlayerController : MonoBehaviour
     Vector3 surfaceNormal;
 
     float verticalSpeed;
+    GameObject floor;
+    GameObject Floor
+    {
+        get => floor;
+        set
+        {
+            if (floor != value)
+            {
+                if (floor != null)
+                    floor.SendMessage("OnCharacterExit", this, SendMessageOptions.DontRequireReceiver);
+                if (value != null)
+                    value.SendMessage("OnCharacterEnter", this, SendMessageOptions.DontRequireReceiver);
+            }
+                
+            floor = value;
+           
+                
+        }
+    }
 
     private void Awake()
     {
         characterController= GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void Update()
@@ -49,7 +69,7 @@ public class PlayerController : MonoBehaviour
         velocity.y += verticalSpeed;
 
         characterController.Move(velocity * Time.deltaTime);
-
+        GroundCheck();
     }
 
 
@@ -59,7 +79,19 @@ public class PlayerController : MonoBehaviour
         surfaceNormal = hit.normal;
     }
 
+    void GroundCheck()
+    {
+        if(Physics.Linecast(transform.position, transform.position + Vector3.down * (characterController.height/2 + 0.1f), out RaycastHit hit))
+        {
+            Floor = hit.collider.gameObject;
+            Floor.SendMessage("OnCharacterStay", this, SendMessageOptions.DontRequireReceiver);
 
+        }
+        else
+        {
+            Floor = null;
+        }
+    }
 
     /*private void Update()
     {
