@@ -35,9 +35,9 @@ public class PlayerController : MonoBehaviour
                 
             floor = value;
            
-                
         }
     }
+
 
     private void Awake()
     {
@@ -81,7 +81,7 @@ public class PlayerController : MonoBehaviour
 
     void GroundCheck()
     {
-        if(Physics.Linecast(transform.position, transform.position + Vector3.down * (characterController.height/2 + 0.1f), out RaycastHit hit))
+        if(Physics.Linecast(transform.position, transform.position + Vector3.down * (characterController.height/2 + 0.5f), out RaycastHit hit))
         {
             Floor = hit.collider.gameObject;
             Floor.SendMessage("OnCharacterStay", this, SendMessageOptions.DontRequireReceiver);

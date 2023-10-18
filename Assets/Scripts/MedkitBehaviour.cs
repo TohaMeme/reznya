@@ -10,8 +10,13 @@ public class MedkitBehaviour : MonoBehaviour
     {
         if(other.GetComponent<PlayerController>())
         {
-            other.GetComponent<DamagableComponent>().Heal(healAmount);
-            Destroy(this.gameObject);
+            if (other.GetComponent<DamagableComponent>().Hp != 100)
+            {
+                other.GetComponent<DamagableComponent>().Hp += healAmount;
+                Destroy(this.gameObject);
+            }
+            
+            
         }
     }
 }

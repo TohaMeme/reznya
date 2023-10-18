@@ -2,32 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LavaBehaviour : MonoBehaviour
+public class LavaBehaviour : FloorType
 {
     [SerializeField] int damageAmount;
     DamagableComponent _damagableComponent;
 
-    private void OnTriggerEnter(Collider other)
+    public override void OnCharacterEnter(PlayerController controller)
     {
-        if (other.GetComponent<PlayerController>())
-        {
-            _damagableComponent = other.GetComponent<DamagableComponent>();
+            _damagableComponent = controller.gameObject.GetComponent<DamagableComponent>();
             InvokeRepeating("InLava", 0.2f, 1f);
-        }
-            
     }
 
-    private void OnTriggerExit(Collider other)
+    public override void OnCharacterExit(PlayerController controller)
     {
-        if (other.GetComponent<PlayerController>())
-        {
             CancelInvoke("InLava");
-        }
-            
+    }
+
+    public override void OnCharacterStay(PlayerController controller)
+    {
+        base.OnCharacterStay(controller);
     }
 
     void InLava()
     {
         _damagableComponent.DealDamage(damageAmount);
     }
+
 }

@@ -8,7 +8,6 @@ using TMPro;
 public class DamagableComponent : MonoBehaviour
 {
     [SerializeField] int maxHp = 100;
-    [SerializeField] int minHp = 0;
 
     public TMP_Text healthText;
 
@@ -32,11 +31,16 @@ public class DamagableComponent : MonoBehaviour
         {
             if (isDead)
                 return;
-
+            if (currentHp == 100)
+                return;
             currentHp = value;
-            if(currentHp <= minHp)
+            if(currentHp <= 0)
             {
                 Die();
+            }
+            if (currentHp > 100)
+            {
+                currentHp = maxHp;
             }
         }
     }
@@ -55,22 +59,6 @@ public class DamagableComponent : MonoBehaviour
         {
             currentHp = maxHp;
         }
-        Debug.Log($"Current HP = {currentHp}");
-    }
-
-    public void Heal(int healAmount)
-    {
-
-        if (isDead)
-            return;
-
-        currentHp += healAmount;
-
-        if (currentHp >= 100) 
-        {
-            currentHp = maxHp;
-        }
-
         Debug.Log($"Current HP = {currentHp}");
     }
 
