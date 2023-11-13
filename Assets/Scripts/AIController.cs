@@ -1,13 +1,22 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+
+public enum MoveToComplitedReason
+{
+    Success,
+    Failure,
+    Aborted
+}
 
 public class AIController : BaseCharacterController
 {
     bool isMoveToCompleted = true;
     int pathPointIndex;
     NavMeshPath path;
+    Action<MoveToComplitedReason> moveToComplited;
 
 
     protected override void Awake()
@@ -15,14 +24,23 @@ public class AIController : BaseCharacterController
         base.Awake();
         path = new NavMeshPath();
     }
-    protected bool MoveTo(Vector3 targetPos)
+    public bool MoveTo(Vector3 targetPos, Action<MoveToComplitedReason> complited = null)
     {
+        
+        InvokeMoveToComplited(MoveToComplitedReason.Aborted);
+
+        moveToComplited = complited;
+
         bool hasPath =  NavMesh.CalculatePath(transform.position, targetPos, NavMesh.AllAreas, path);
         if (hasPath)
-        {
-            pathPointIndex = 1;
-        }
+            pathPointIndex = 0;
+
         isMoveToCompleted = !hasPath;
+
+        if (!hasPath)
+            InvokeMoveToComplited(MoveToComplitedReason.Failure);
+
+
         return hasPath;
     }
 
@@ -50,8 +68,8 @@ public class AIController : BaseCharacterController
         {
             if(pathPointIndex + 1 >= path.corners.Length)
             {
-                print("кушать хочется");
-                isMoveToCompleted = true;
+                InvokeMoveToComplited(MoveToComplitedReason.Success);
+                
                 return;
             }
             pathPointIndex++;
@@ -62,5 +80,15 @@ public class AIController : BaseCharacterController
         Vector3 direction = (targetPos - sourcePos).normalized;
 
         MoveWorld(direction.x, direction.z);
+    }
+
+    private void InvokeMoveToComplited(MoveToComplitedReason reason)
+    {
+
+        isMoveToCompleted = true;
+
+        Action<MoveToComplitedReason> action = moveToComplited;
+        moveToComplited = null;
+        action?.Invoke(MoveToComplitedReason.Success);
     }
 }
