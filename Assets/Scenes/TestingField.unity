@@ -1392,6 +1392,7 @@ GameObject:
   - component: {fileID: 1454242949}
   - component: {fileID: 1454242951}
   - component: {fileID: 1454242950}
+  - component: {fileID: 1454242952}
   m_Layer: 0
   m_Name: HEADA1
   m_TagString: Untagged
@@ -1479,6 +1480,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1454242952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1454242948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9626436330bc0bf4c9d7a3fa0cfe9409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 100
+  affiliation: 2
+  healthText: {fileID: 0}
 --- !u!1 &1541007849
 GameObject:
   m_ObjectHideFlags: 0
@@ -1845,6 +1861,36 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2004879601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934091595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a693e0d32ad195419b91561856201f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewDistance: 18
+  viewCone: 95
+  searchTargets: 0
+--- !u!114 &2004879602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934091595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9626436330bc0bf4c9d7a3fa0cfe9409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 100
+  affiliation: 2
+  healthText: {fileID: 0}
 --- !u!1 &2025961318
 GameObject:
   m_ObjectHideFlags: 0
@@ -2212,6 +2258,10 @@ PrefabInstance:
       propertyPath: healthText
       value: 
       objectReference: {fileID: 1960756254}
+    - target: {fileID: 3633448274787052159, guid: 61333536a3a830b44b3d4bffbbb3fbae, type: 3}
+      propertyPath: affiliation
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4413484744389918189, guid: 61333536a3a830b44b3d4bffbbb3fbae, type: 3}
       propertyPath: aim
       value: 

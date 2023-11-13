@@ -8,6 +8,9 @@ using TMPro;
 public class DamagableComponent : MonoBehaviour
 {
     [SerializeField] int maxHp = 100;
+    [SerializeField] Affiliation affiliation;
+
+    public Affiliation Affiliation => affiliation;
 
     public TMP_Text healthText;
 
@@ -21,7 +24,7 @@ public class DamagableComponent : MonoBehaviour
     }
     public void Update()
     {
-        healthText.text = "Health: " + currentHp + "%";
+        if (healthText != null) healthText.text = "Health: " + currentHp + "%";
     }
 
     public int Hp
