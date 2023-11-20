@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Scripting.APIUpdating;
 
 public class DemonAIController : AIController
 {
     AIStateMachine stateMachine;
-     void Start()
+
+    void Start()
     {
         stateMachine = new AIStateMachine();
-
         stateMachine.AddState("Roaming", new RoamingAIState(this, stateMachine));
+        stateMachine.AddState("Chasing", new ChasingAIState(this, stateMachine));
         stateMachine.SetActiveState("Roaming");
     }
+
 }
