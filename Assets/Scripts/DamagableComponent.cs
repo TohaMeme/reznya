@@ -14,7 +14,7 @@ public class DamagableComponent : MonoBehaviour
 
     public TMP_Text healthText;
 
-    int currentHp = 100;
+    [SerializeField] int currentHp = 100;
 
     bool isDead;
 

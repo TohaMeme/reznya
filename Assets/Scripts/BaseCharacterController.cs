@@ -22,11 +22,11 @@ public abstract class BaseCharacterController : MonoBehaviour
             if (floor != value)
             {
                 if (floor != null)
-                    floor.SendMessage("OnCharacterExit", this, SendMessageOptions.DontRequireReceiver);
+                    floor.SendMessage("OnCharacterExit", this.gameObject.GetComponent<DamagableComponent>(), SendMessageOptions.DontRequireReceiver);
                 if (value != null)
-                    value.SendMessage("OnCharacterEnter", this, SendMessageOptions.DontRequireReceiver);
+                    value.SendMessage("OnCharacterEnter", this.gameObject.GetComponent<DamagableComponent>(), SendMessageOptions.DontRequireReceiver);
             }
-
+           
             floor = value;
 
         }
@@ -88,7 +88,7 @@ public abstract class BaseCharacterController : MonoBehaviour
         if (Physics.Linecast(transform.position, transform.position + Vector3.down * (characterController.height / 2 + 0.5f), out RaycastHit hit))
         {
             Floor = hit.collider.gameObject;
-            Floor.SendMessage("OnCharacterStay", this, SendMessageOptions.DontRequireReceiver);
+            Floor.SendMessage("OnCharacterStay", this.gameObject.GetComponent<DamagableComponent>(), SendMessageOptions.DontRequireReceiver);
 
         }
         else

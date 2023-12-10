@@ -5,10 +5,39 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
+    CharacterController characterController;
     static HashSet<DamagableComponent> damagableComponents = new HashSet<DamagableComponent>();
 
     public static IReadOnlyCollection<DamagableComponent> Enemies => damagableComponents;
 
+    GameObject floor;
+    GameObject Floor
+    {
+        get => floor;
+        set
+        {
+            if (floor != value)
+            {
+                if (floor != null)
+                    floor.SendMessage("OnCharacterExit", this.gameObject.GetComponent<DamagableComponent>(), SendMessageOptions.DontRequireReceiver);
+                if (value != null)
+                    value.SendMessage("OnCharacterEnter", this.gameObject.GetComponent<DamagableComponent>(), SendMessageOptions.DontRequireReceiver);
+            }
+
+            floor = value;
+
+        }
+    }
+
+    protected virtual void Awake()
+    {
+        characterController = GetComponent<CharacterController>();
+    }
+
+    private void Update()
+    {
+        GroundCheck();
+    }
     public static void RegisterEnemy(DamagableComponent damagble)
     {
         damagableComponents.Add(damagble);
@@ -62,5 +91,19 @@ public class EnemyManager : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    void GroundCheck()
+    {
+        if (Physics.Linecast(transform.position, transform.position + Vector3.down * (characterController.height / 2 + 0.5f), out RaycastHit hit))
+        {
+            Floor = hit.collider.gameObject;
+            Floor.SendMessage("OnCharacterStay", this.gameObject.GetComponent<DamagableComponent>(), SendMessageOptions.DontRequireReceiver);
+
+        }
+        else
+        {
+            Floor = null;
+        }
     }
 }

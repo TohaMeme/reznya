@@ -8,34 +8,38 @@ public class Elevator : FloorType
     [SerializeField] bool goesUp = true;
     [SerializeField] Vector3 destinationDown;
     [SerializeField] Vector3 destinationUp;
-    
+    [SerializeField] float initialDuration = 1f;
     Vector3 newDestination;
+    
 
-    public override void OnCharacterEnter(PlayerController controller)
+    public override void OnCharacterEnter(DamagableComponent damagableComponent)
     {
+        PlayerController controller = damagableComponent.GetComponent<PlayerController>();
         controller.transform.SetParent(this.transform);
-        CheckDestination();
+        GetTargetDestination();
       
         StartCoroutine(AnimateElevator(newDestination));
     }
 
-    public override void OnCharacterExit(PlayerController controller)
+    public override void OnCharacterExit(DamagableComponent damagableComponent)
     {
         StopAllCoroutines();
+
         if (goesUp) 
             goesUp = false;
         else
-            goesUp = true;
+            goesUp = !goesUp;
         this.transform.DetachChildren();
 
     }
 
     IEnumerator AnimateElevator(Vector3 destination)
     {
+
         yield return new WaitForSeconds(delay);
         Vector3 start = transform.position;
         float time = 0;
-        while (time < 1f)
+        while (time < initialDuration)
         {
             Debug.Log("Coroutine");
             time += Time.deltaTime;
@@ -46,7 +50,7 @@ public class Elevator : FloorType
        
     }
 
-    void CheckDestination()
+    void GetTargetDestination()
     {
 
         if (goesUp)

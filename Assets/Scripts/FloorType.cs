@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class FloorType : MonoBehaviour
 {
-    public virtual  void OnCharacterStay(PlayerController controller)
+    public virtual  void OnCharacterStay(DamagableComponent damagableComponent)
     {
-        print($"Lava player stay: {controller.name}");
+        print($"Lava player stay: {damagableComponent.name}");
     }
 
-    public virtual void OnCharacterExit(PlayerController controller)
+    public virtual void OnCharacterExit(DamagableComponent damagableComponent)
     {
-        print($"Lava player exit: {controller.name}");
+        print($"Lava player exit: {damagableComponent.name}");
     }
 
-    public virtual void OnCharacterEnter(PlayerController controller)
+    public virtual void OnCharacterEnter(DamagableComponent damagableComponent)
     {
-        print($"Lava player enter: {controller.name}");
+        print($"Lava player enter: {damagableComponent.name}");
     }
 }
