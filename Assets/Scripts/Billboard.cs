@@ -11,7 +11,6 @@ public class Billboard : MonoBehaviour
         cashedCamera = Camera.main.transform;
     }
 
-    // Update is called once per frame
     void Update()
     {
         transform.LookAt(new Vector3(cashedCamera.position.x, 0, cashedCamera.position.z));

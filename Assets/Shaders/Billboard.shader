@@ -19,8 +19,7 @@ Shader "Billboard/1Direaction"
             CGPROGRAM
 
             #pragma vertex vert  //pragma - инструкции, которые юнити передает сам себе
-            #pragma fragment frag
-            // make fog work
+            #pragma fragment frag // make fog work
             #pragma multi_compile_fog
 
             #include "UnityCG.cginc"  //импортирование библиотеки с функциями
@@ -48,7 +47,6 @@ Shader "Billboard/1Direaction"
             v2f vert(appdata v)
             {
                 v2f o;
-                //o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 UNITY_TRANSFER_FOG(o,o.vertex);
                 o.normal = v.normal; //пишем что является нормалью. o.normal не проходит через интерполятор
@@ -57,7 +55,6 @@ Shader "Billboard/1Direaction"
                 cameraDir.y = 0;
 
                 float2 cameraDir2D = normalize(cameraDir.xz);
-                //o.cameraDir = cameraDir2D;
 
                 float2 vectorForward2D = mul(UNITY_MATRIX_M, float4(0, 0, 1, 0)).xz;
 

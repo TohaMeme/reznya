@@ -19,8 +19,7 @@ Shader "Billboard/8Directional"
             CGPROGRAM
 
             #pragma vertex vert  //pragma - инструкции, которые юнити передает сам себе
-            #pragma fragment frag
-            // make fog work
+            #pragma fragment frag // make fog work
             #pragma multi_compile_fog
 
             #include "UnityCG.cginc"  //импортирование библиотеки с функциями
@@ -49,7 +48,6 @@ Shader "Billboard/8Directional"
             v2f vert (appdata v)
             {
                 v2f o;
-                //o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 UNITY_TRANSFER_FOG(o,o.vertex);
                 o.normal = v.normal; //пишем что является нормалью. o.normal не проходит через интерполятор
@@ -58,7 +56,6 @@ Shader "Billboard/8Directional"
                 cameraDir.y = 0;
 
                 float2 cameraDir2D = normalize(cameraDir.xz);
-                //o.cameraDir = cameraDir2D;
 
                 float2 vectorForward2D = mul(UNITY_MATRIX_M, float4(0, 0, 1, 0)).xz;
 
@@ -101,16 +98,7 @@ Shader "Billboard/8Directional"
 
                 return color;
 
-                // apply fog
-                //float3 norm = mul(UNITY_MATRIX_M, float4(i.normal, 0));
-
-                //float finalAngle = (angleNormalized + 1) / 2;
-
-                // sample the texture
-                
-                //UNITY_APPLY_FOG(i.fogCoord, col);
-                //return float4(finalAngle, 0, 0, 1);
-                //return float4(abs(i.cameraDir), 0, 1); //float4(norm, 1);  //делаем нормали глобальными //abs(i.normal); //возвращает визуальную часть. Без abs черное это то где ось уходит в минус, а цвета с отрицательным значением не существуют поэтому рисуется черный. Нормали считаются локально!!
+             
             }
             ENDCG
         }
