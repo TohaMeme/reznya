@@ -1,14 +1,14 @@
-Shader "Unlit/ZaubrrShader"
+Shader "Billboard/1Direaction"
 {
     Properties //свойства, которые показываются в эдиторе
     {
-        _MainTex ("Texture", 2D) = "white" {}
+        _MainTex("Texture", 2D) = "white" {}
     }
-    SubShader
+        SubShader
     {
-        Tags 
-        { 
-            "RenderType"="Transparent" 
+        Tags
+        {
+            "RenderType" = "Transparent"
             "DisableBatching" = "True"
         }
         LOD 100
@@ -24,6 +24,7 @@ Shader "Unlit/ZaubrrShader"
             #pragma multi_compile_fog
 
             #include "UnityCG.cginc"  //импортирование библиотеки с функциями
+            #include "DoomBillboard.cginc"
 
             struct appdata //функцию нельзя использовать, пока ее не объявить. Эта строка объявление структуры
             {
@@ -44,41 +45,14 @@ Shader "Unlit/ZaubrrShader"
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
-            void Unity_RotateAboutAxis_Radians_float(float3 In, float3 Axis, float Rotation, out float3 Out)
-            {
-                float s = sin(Rotation);
-                float c = cos(Rotation);
-                float one_minus_c = 1.0 - c;
-
-                Axis = normalize(Axis);
-                float3x3 rot_mat =
-                {
-                    one_minus_c * Axis.x * Axis.x + c, one_minus_c * Axis.x * Axis.y - Axis.z * s, one_minus_c * Axis.z * Axis.x + Axis.y * s,
-                    one_minus_c * Axis.x * Axis.y + Axis.z * s, one_minus_c * Axis.y * Axis.y + c, one_minus_c * Axis.y * Axis.z - Axis.x * s,
-                    one_minus_c * Axis.z * Axis.x - Axis.y * s, one_minus_c * Axis.y * Axis.z + Axis.x * s, one_minus_c * Axis.z * Axis.z + c
-                };
-                Out = mul(rot_mat, In);
-            }
-
-            
-
-            void Unity_Flipbook_float(float2 UV, float Width, float Height, float Tile, float2 Invert, out float2 Out)
-            {
-                Tile = fmod(Tile, Width * Height);
-                float2 tileCount = float2(1.0, 1.0) / float2(Width, Height);
-                float tileY = abs(Invert.y * Height - (floor(Tile * tileCount.x) + Invert.y * 1));
-                float tileX = abs(Invert.x * Width - ((Tile - Width * floor(Tile * tileCount.x)) + Invert.x * 1));
-                Out = (UV + float2(tileX, tileY)) * tileCount;
-            }
-
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
                 //o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 UNITY_TRANSFER_FOG(o,o.vertex);
                 o.normal = v.normal; //пишем что является нормалью. o.normal не проходит через интерполятор
-                
+
                 float3 cameraDir = -1 * mul(UNITY_MATRIX_M, transpose(mul(unity_WorldToObject, UNITY_MATRIX_I_V))[2].xyz);
                 cameraDir.y = 0;
 
@@ -106,36 +80,18 @@ Shader "Unlit/ZaubrrShader"
                 Unity_RotateAboutAxis_Radians_float(v.vertex, float3(0, 1, 0), angleRad, newVertex);
 
                 o.vertex = UnityObjectToClipPos(newVertex);
-                
+
                 return o;
             }
 
             fixed4 frag(v2f i) : SV_Target
             {
-                float tileAngle = fmod(i.angle - 0.0625, 1);
-                float tile = floor(lerp(0, 8, tileAngle));
-                
-                float2 uv;
-
-                Unity_Flipbook_float(i.uv, 4, 2, tile, float2(1, 1), uv);
-
-                fixed4 color = tex2D(_MainTex, uv);
+               fixed4 color = tex2D(_MainTex, i.uv);
 
                 if (color.a < 0.001)
                     discard;
 
                 return color;
-
-                // apply fog
-                //float3 norm = mul(UNITY_MATRIX_M, float4(i.normal, 0));
-
-                //float finalAngle = (angleNormalized + 1) / 2;
-
-                // sample the texture
-                
-                //UNITY_APPLY_FOG(i.fogCoord, col);
-                //return float4(finalAngle, 0, 0, 1);
-                //return float4(abs(i.cameraDir), 0, 1); //float4(norm, 1);  //делаем нормали глобальными //abs(i.normal); //возвращает визуальную часть. Без abs черное это то где ось уходит в минус, а цвета с отрицательным значением не существуют поэтому рисуется черный. Нормали считаются локально!!
             }
             ENDCG
         }
